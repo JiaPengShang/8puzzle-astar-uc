@@ -1,0 +1,18 @@
+ALGORITHM,               INIT_STATE,            GOAL_STATE,       PATH_LENGTH,     STATE_EXPANSIONS,  MAX_QLENGTH,  RUNNING_TIME,  DELETIONS_MIDDLE_HEAP, LOCAL_LOOPS_AVOIDED, ATTEMPTED_REEXPANSIONS,   PATH,  COMMENTS
+  uniform_cost_search          ,120483765          ,123456780          ,6          ,53          ,39          ,0.000100          ,0          ,52          ,0          ,DDLURD
+  uniform_cost_search          ,208135467          ,123456780          ,15          ,5179          ,3288          ,0.001239          ,0          ,5178          ,283          ,DRULDDRULULDDRR
+  uniform_cost_search          ,704851632          ,123456780          ,19          ,32181          ,14568          ,0.008705          ,0          ,32180          ,3802          ,RDDLLUURRDDLLUURRDD
+  uniform_cost_search          ,536407182          ,123456780          ,22          ,89412          ,24999          ,0.026183          ,0          ,89411          ,17089          ,RDLURULDLDRRUULLDRURDD
+  uniform_cost_search          ,638541720          ,123456780          ,28          ,178416          ,24232          ,0.055640          ,0          ,178415          ,57577          ,UULDDLUURDLDRURDLURULDLURRDD
+ astar_misplacedtiles          ,120483765          ,123456780          ,6          ,7          ,9          ,0.000075          ,0          ,6          ,0          ,DDLURD
+ astar_misplacedtiles          ,208135467          ,123456780          ,15          ,224          ,146          ,0.000102          ,0          ,223          ,5          ,DDRUULLDDRRULDR
+ astar_misplacedtiles          ,704851632          ,123456780          ,19          ,1076          ,665          ,0.000266          ,0          ,1075          ,44          ,RDDLLUURRDDLLUURRDD
+ astar_misplacedtiles          ,536407182          ,123456780          ,22          ,6523          ,3665          ,0.001638          ,0          ,6522          ,389          ,RDLURULLDRULDDRUULDRDR
+ astar_misplacedtiles          ,638541720          ,123456780          ,28          ,52135          ,19607          ,0.013486          ,0          ,52134          ,6989          ,LURULLDRDRUULLDRRULDDRUULDRD
+      astar_manhattan          ,120483765          ,123456780          ,6          ,6          ,7          ,0.000033          ,0          ,5          ,0          ,DDLURD
+      astar_manhattan          ,208135467          ,123456780          ,15          ,26          ,21          ,0.000065          ,0          ,25          ,0          ,DRULLDRDRULLDRR
+      astar_manhattan          ,704851632          ,123456780          ,19          ,19          ,12          ,0.000058          ,0          ,18          ,0          ,RDDLLUURRDDLLUURRDD
+      astar_manhattan          ,536407182          ,123456780          ,22          ,593          ,353          ,0.000201          ,0          ,592          ,17          ,RDLURULLDRULDDRUULDRDR
+      astar_manhattan          ,638541720          ,123456780          ,28          ,3366          ,1888          ,0.000863          ,0          ,3365          ,104          ,LURULLDRDRUULLDRRULDDRUULDRD
+
+Total time = 0.114759 sec.
