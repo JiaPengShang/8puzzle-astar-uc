@@ -28,6 +28,7 @@ namespace
 
     inline bool applyMove(const string &s, char mv, string &out)
     {
+
         out = s;//out is the new state after the move       
         int z = zeroPos(s);//z is the position of the blank space
         int r = z / 3, c = z % 3;  //r is the row, c is the column
@@ -35,21 +36,26 @@ namespace
         {
         case 'U':
             if (r == 0)//if the blank space is in the first row, return false
+
                 return false;
             swap(out[z], out[z - 3]);
             return true;
         case 'R':
+
             if (c == 2)//if the blank space is in the last column, return false
+
                 return false;
             swap(out[z], out[z + 1]);
             return true;
         case 'D':
+
             if (r == 2)//if the blank space is in the last row, return false        
                 return false;
             swap(out[z], out[z + 3]);//swap the blank space with the space above it
             return true;
         case 'L':
             if (c == 0)//if the blank space is in the first column, return false
+
                 return false;
             swap(out[z], out[z - 1]);
             return true;
@@ -67,7 +73,9 @@ namespace
             {
                 char v = s[i];
                 if (v != '0' && v != goal[i])
+
                     cnt++;//cnt is the number of misplaced tiles
+
             }
             return cnt;
         }
@@ -79,12 +87,14 @@ namespace
                 posGoal[goal[i] - '0'] = i; // value -> index
             for (int i = 0; i < 9; i++)
             {
+
                 int v = s[i] - '0';//v is the value of the tile
                 if (v == 0)
                     continue;
                 int gi = posGoal[v];//gi is the goal position of the tile   
                 int r1 = i / 3, c1 = i % 3, r2 = gi / 3, c2 = gi % 3; //r1 is the row of the tile, c1 is the column of the tile, r2 is the row of the goal position, c2 is the column of the goal position
                 sum += std::abs(r1 - r2) + std::abs(c1 - c2); //sum is the sum of the manhattan distance
+
             }
             return sum;
         }
@@ -96,8 +106,10 @@ namespace
         const vector<Node> *nodes;
         bool operator()(int a, int b) const
         {
+
             const Node &A = (*nodes)[a];//A is the node at index a
             const Node &B = (*nodes)[b];//B is the node at index b
+
             if (A.f != B.f)
                 return A.f > B.f; // larger f is worse
             return A.g < B.g;     // smaller g is worse → larger g is better
@@ -107,9 +119,11 @@ namespace
     string buildPath(const vector<Node> &nodes, int goalIdx)
     {
         string path;
+
         for (int cur = goalIdx; nodes[cur].parent != -1; cur = nodes[cur].parent)//cur is the current node
         {
             path.push_back(nodes[cur].move);//push the move to the path 
+
         }
         reverse(path.begin(), path.end());//reverse the path
         return path;
@@ -122,6 +136,7 @@ string uc_explist(string const initialState, string const goalState,
                   float &actualRunningTime, int &numOfDeletionsFromMiddleOfHeap,
                   int &numOfLocalLoopsAvoided, int &numOfAttemptedNodeReExpansions)
 {
+
     clock_t t0 = clock();//t0 is the starting time  
     pathLength = 0;//pathLength is the length of the path
     numOfStateExpansions = 0;//numOfStateExpansions is the number of state expansions
@@ -141,10 +156,12 @@ string uc_explist(string const initialState, string const goalState,
     nodes.push_back(Node{initialState, 0, 0, 0, 0, -1});
 
     vector<int> heap;//heap is the vector of integers
+
     heap.reserve(100000);
     WorseByFG cmp{&nodes};
     heap.push_back(0);
     make_heap(heap.begin(), heap.end(), cmp);
+
 
     unordered_set<string> closed;//closed is the unordered set of strings
     closed.reserve(100003);
@@ -152,10 +169,12 @@ string uc_explist(string const initialState, string const goalState,
     openIndex.emplace(initialState, 0);
 
     string child;//child is the child state
+
     int goalIdx = -1;
 
     while (!heap.empty())
     {
+
         pop_heap(heap.begin(), heap.end(), cmp);//pop the heap
         int u = heap.back();
         heap.pop_back();
@@ -164,6 +183,7 @@ string uc_explist(string const initialState, string const goalState,
         if (nodes[u].s == goalState)
         {
             goalIdx = u;//goalIdx is the index of the goal state
+
             break;
         }
 
@@ -172,6 +192,7 @@ string uc_explist(string const initialState, string const goalState,
 
         for (char mv : MOVES)
         { // URDL
+
             if (!applyMove(nodes[u].s, mv, child))//if the move is invalid, continue
                 continue;
 
@@ -195,6 +216,7 @@ string uc_explist(string const initialState, string const goalState,
             v.s = child;//v is the child state
             v.g = nodes[u].g + 1; // unit step cost = 1
             v.h = 0;//v.h is the heuristic value of the child state
+
             v.f = v.g;
             v.move = mv;
             v.parent = u;//v.parent is the parent state of the child state
@@ -206,13 +228,16 @@ string uc_explist(string const initialState, string const goalState,
             openIndex.emplace(v.s, vidx);//emplace the child state into the open index
 
             if ((int)heap.size() > maxQLength)
+
                 maxQLength = (int)heap.size();//maxQLength is the maximum length of the queue
+
         }
     }
 
     string path;
     if (goalIdx != -1)
     {
+
         path = buildPath(nodes, goalIdx);//build the path from the nodes
         pathLength = (int)path.size();
     }
@@ -221,6 +246,8 @@ string uc_explist(string const initialState, string const goalState,
         pathLength = 0;//pathLength is the length of the path
     }
     actualRunningTime = float(clock() - t0) / CLOCKS_PER_SEC;//actualRunningTime is the actual running time in seconds
+
+
     return path;
 }
 
@@ -231,6 +258,7 @@ string aStar_ExpandedList(string const initialState, string const goalState,
                           int &numOfLocalLoopsAvoided, int &numOfAttemptedNodeReExpansions,
                           heuristicFunction heuristic)
 {
+
     clock_t t0 = clock();//t0 is the starting time              
     pathLength = 0;//pathLength is the length of the path
     numOfStateExpansions = 0;//numOfStateExpansions is the number of state expansions
@@ -246,15 +274,19 @@ string aStar_ExpandedList(string const initialState, string const goalState,
     }
 
     vector<Node> nodes;//nodes is the vector of nodes
+
     nodes.reserve(100000);
     int h0 = computeH(initialState, goalState, heuristic);
     nodes.push_back(Node{initialState, 0, h0, h0, 0, -1});
 
+
     vector<int> heap;//heap is the vector of integers
+
     heap.reserve(100000);
     WorseByFG cmp{&nodes};
     heap.push_back(0);
     make_heap(heap.begin(), heap.end(), cmp);
+
 
     unordered_set<string> closed;//closed is the unordered set of strings
     closed.reserve(100003);
@@ -262,10 +294,12 @@ string aStar_ExpandedList(string const initialState, string const goalState,
     openIndex.emplace(initialState, 0);
 
     string child;//child is the child state
+
     int goalIdx = -1;
 
     while (!heap.empty())
     {
+
         pop_heap(heap.begin(), heap.end(), cmp);//pop the heap
         int u = heap.back();
         heap.pop_back();
@@ -274,6 +308,7 @@ string aStar_ExpandedList(string const initialState, string const goalState,
         if (nodes[u].s == goalState)
         {
             goalIdx = u;//goalIdx is the index of the goal state            
+
             break;
         }
 
@@ -282,6 +317,7 @@ string aStar_ExpandedList(string const initialState, string const goalState,
 
         for (char mv : MOVES)
         { // URDL
+
             if (!applyMove(nodes[u].s, mv, child))//if the move is invalid, continue
                 continue;
 
@@ -316,13 +352,16 @@ string aStar_ExpandedList(string const initialState, string const goalState,
             openIndex.emplace(v.s, vidx);//emplace the child state into the open index
 
             if ((int)heap.size() > maxQLength)
+
                 maxQLength = (int)heap.size();//maxQLength is the maximum length of the queue
+
         }
     }
 
     string path;
     if (goalIdx != -1)
     {
+
         path = buildPath(nodes, goalIdx);//build the path from the nodes    
         pathLength = (int)path.size();
     }
@@ -331,5 +370,6 @@ string aStar_ExpandedList(string const initialState, string const goalState,
         pathLength = 0;//pathLength is the length of the path
     }
     actualRunningTime = float(clock() - t0) / CLOCKS_PER_SEC;//actualRunningTime is the actual running time in seconds      
+
     return path;
 }
